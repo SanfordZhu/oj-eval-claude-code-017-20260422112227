@@ -69,10 +69,6 @@ void parse_int_array(const MyString& str, char delim, Vector<int>& result) {
 }
 
 int main() {
-    // Basic I/O setup
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
     Command cmd;
 
     while (parse_command(cmd)) {
