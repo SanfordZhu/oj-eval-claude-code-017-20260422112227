@@ -281,7 +281,7 @@ public:
         train.calculate_times(date, stations);
 
         // Format result
-        char buffer[10000];
+        char buffer[50000]; // Increased buffer size for worst case
         int pos = 0;
 
         // First line: trainID type
@@ -324,9 +324,7 @@ public:
                 pos += sprintf(buffer + pos, " %d", info.seat);
             }
 
-            if (i < train.stationNum - 1) {
-                pos += sprintf(buffer + pos, "\n");
-            }
+            pos += sprintf(buffer + pos, "\n");
         }
 
         result = MyString(buffer);

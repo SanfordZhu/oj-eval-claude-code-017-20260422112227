@@ -25,23 +25,33 @@ int parse_int(const MyString& str, int default_val = -1) {
 void split_string(const MyString& str, char delim, Vector<MyString>& result) {
     result.clear();
     const char* s = str.c_str();
-    char buffer[100];
+    char buffer[101]; // 100 + 1 for null terminator
     int pos = 0;
 
     while (*s) {
         if (*s == delim) {
+            if (pos >= 100) {
+                // Should not happen with valid input, but be safe
+                pos = 100;
+            }
             buffer[pos] = '\0';
             if (pos > 0) {
                 result.push_back(MyString(buffer));
             }
             pos = 0;
         } else {
-            buffer[pos++] = *s;
+            if (pos < 100) {
+                buffer[pos++] = *s;
+            }
+            // Else skip character (should not happen with valid input)
         }
         s++;
     }
 
     if (pos > 0) {
+        if (pos >= 100) {
+            pos = 100;
+        }
         buffer[pos] = '\0';
         result.push_back(MyString(buffer));
     }

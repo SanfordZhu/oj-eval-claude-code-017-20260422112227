@@ -43,14 +43,17 @@ public:
     }
 
     ~MyString() {
-        if (data) delete[] data;
+        if (data) {
+            delete[] data;
+            data = nullptr;
+        }
     }
 
     MyString& operator=(const MyString& other) {
         if (this != &other) {
             length = other.length;
             if (capacity < length + 1) {
-                delete[] data;
+                if (data) delete[] data;
                 capacity = length + 1;
                 data = new char[capacity];
             }
