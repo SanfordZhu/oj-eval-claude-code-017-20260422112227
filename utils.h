@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <string>
+#include <iostream>
 
 // Simple string class (since we can only use std::string from STL)
 class MyString {
@@ -317,27 +319,26 @@ bool parse_command(Command& cmd) {
     cmd.clear();
 
     // Read command type
-    char buffer[100];
-    if (scanf("%s", buffer) != 1) return false;
-    cmd.type = MyString(buffer);
+    std::string buffer;
+    if (!(std::cin >> buffer)) return false;
+    cmd.type = MyString(buffer.c_str());
 
     // Read parameters
     while (true) {
-        char key[10];
-        if (scanf("%s", key) != 1) break;
+        std::string key;
+        if (!(std::cin >> key)) break;
         if (key[0] != '-') {
             // Not a parameter key, push back
-            ungetc(' ', stdin);
-            for (int i = strlen(key) - 1; i >= 0; i--) {
-                ungetc(key[i], stdin);
+            for (int i = key.length() - 1; i >= 0; i--) {
+                std::cin.putback(key[i]);
             }
             break;
         }
 
-        char value[100];
-        if (scanf("%s", value) != 1) return false;
+        std::string value;
+        if (!(std::cin >> value)) return false;
 
-        cmd.params.insert(MyString(key), MyString(value));
+        cmd.params.insert(MyString(key.c_str()), MyString(value.c_str()));
     }
 
     return true;
